@@ -1,0 +1,37 @@
+version: '3'
+
+services:
+{create a service for each value of services}
+  {value of container_name}:
+    container_name: {value of container_name}
+    build:
+      context: ./{value of project}-{value of container_name}
+      dockerfile: {value of dockerfile}
+    ports:
+      - {value of ports}
+    volumes:
+      - ./{value of project}-{value of container_name}:/app
+    depends_on:
+      - {value of database container_name if db service is created}
+    networks:
+      - {value of network}
+
+  {create db service if defined}}
+    {value of database container_name}:
+      image: {value of image}:
+      container_name: {value of database container_name}:
+      environment:
+        - {environment variables}:
+      volumes:
+        - {value of project}-{value of database container_name}:/var/lib/postgresql/data
+      ports:
+        - {value of database ports}
+      restart: unless-stopped
+      networks:
+        - {value of network}
+
+volumes:
+  {value of project}-{value of database container_name}
+
+networks:
+  {value of network}
