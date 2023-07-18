@@ -14,11 +14,11 @@ import (
 
 var (
 	ErrNotProjectileRepo = errors.New("provided url is not a projectile repo")
-	ErrFaildAuth         = errors.New("failed to authenticate, type `projectile login` to provide username and GitHub PAT")	
+	ErrFaildAuth         = errors.New("failed to authenticate, type `projectile login` to provide username and GitHub PAT \nvisit https://github.com/settings/tokens to generate PAT")	
 )
 
 func Do(configRepo string) error {
-	fmt.Printf("Cloning %s...\n", configRepo)
+	fmt.Printf("cloning %s...\n\n", configRepo)
 	err := cloneConfigRepo(configRepo)
 	if err != nil {
 		return err
@@ -29,20 +29,20 @@ func Do(configRepo string) error {
 		return err
 	}
 
-	fmt.Print("Cloning services...\n")
+	fmt.Print("cloning services...\n\n")
 	err = cloneServiceRepos(config)
 	if err != nil {
 		return err
 	}
 
-	fmt.Print("Building environment...\n")
+	fmt.Print("building environment...\n\n")
 	err = copyFile("./.projectile/env/local/docker-compose.yaml", "./docker-compose.yaml")
 	fmt.Print("Done!\n")
 	return err
 }
 
 func cloneConfigRepo(url string) error {
-	fmt.Print("Loading projectile config...\n")
+	fmt.Print("loading projectile config...\n\n")
 	parts := strings.Split(url, "/")
 	name := parts[len(parts)-1]
 
@@ -52,7 +52,7 @@ func cloneConfigRepo(url string) error {
 	}
 
 	if !isValid {
-		return fmt.Errorf("invalid URL: %s. Only GitHub organization or repository URLs are supported", url)
+		return ErrNotProjectileRepo
 	}
 
 	configRepo := url
@@ -62,20 +62,27 @@ func cloneConfigRepo(url string) error {
 		configRepo = "https://github.com/" + name + "/projectile"
 	}
 
-	config, err := readAuthConfig()
+	auth, err := readAuthConfig()
 	if err != nil {
-		
-		fmt.Println("Failed to read auth config:", err)
-		return err
+		return ErrFaildAuth
 	}
 
 	_, err = git.PlainClone("./.projectile", false, &git.CloneOptions{
 		URL:      configRepo,
 		Auth: &http.BasicAuth{
-			Username: config.GitHub.Username,
-			Password: config.GitHub.Token,
+			Username: auth.GitHub.Username,
+			Password: auth.GitHub.Token,
 		},
 	})
+
+	// Marshal the struct to YAML
+	data, err := yaml.Marshal(&auth)
+	if err != nil {
+		return err
+	}
+
+	// Store the YAML in a file
+	err = ioutil.WriteFile("./.projectile/auth.yaml", data, 0644)
 	return err
 }
 

@@ -66,12 +66,14 @@ func init() {
 		Use:   "login",
 		Short: "Login with GitHub credentials",
 		Run: func(cmd *cobra.Command, args []string) {
+			_ = os.MkdirAll("./.projectile", 0755)
+			
 			reader := bufio.NewReader(os.Stdin)
 	
-			fmt.Print("Enter GitHub username: ")
+			fmt.Print("enter GitHub username: ")
 			username, _ := reader.ReadString('\n')
 	
-			fmt.Print("Enter GitHub PAT: ")
+			fmt.Print("enter GitHub PAT: ")
 			pat, _ := reader.ReadString('\n')
 	
 			// Trim newline
@@ -79,7 +81,7 @@ func init() {
 			pat = strings.TrimSpace(pat)
 	
 			// Store the credentials in a struct
-			creds := models.AuthConfig{
+			auth := models.AuthConfig{
 				GitHub: struct {
 					Username string `yaml:"username"`
 					Token    string `yaml:"token"`
@@ -90,18 +92,18 @@ func init() {
 			}
 	
 			// Marshal the struct to YAML
-			data, err := yaml.Marshal(&creds)
+			data, err := yaml.Marshal(&auth)
 			if err != nil {
-				fmt.Println("Failed to marshal credentials:", err)
+				fmt.Println("login failed:", err)
 				return
 			}
 	
 			// Store the YAML in a file
 			err = ioutil.WriteFile("./.projectile/auth.yaml", data, 0644)
 			if err != nil {
-				fmt.Println("Failed to store credentials:", err)
+				fmt.Println("login failed:", err)
 			} else {
-				fmt.Println("Credentials stored successfully")
+				fmt.Println("login successfull")
 			}
 		},
 	}
