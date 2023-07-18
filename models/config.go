@@ -1,4 +1,4 @@
-package main
+package models
 
 type Options struct {
 	AddContainer bool `yaml:"add_container"`

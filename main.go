@@ -1,3 +1,19 @@
+// .projectile
+/*
+
+env/
+	local/
+		air.toml
+		Dockerfile
+		docker-compose.yaml
+config/
+	main.go
+	main.yaml
+	auth.yaml
+main.go
+
+*/
+
 package main
 
 import (
@@ -8,6 +24,7 @@ import (
 	"strings"
 
 	"github.com/AstroSynapseLab/Projectile/clone"
+	"github.com/AstroSynapseLab/Projectile/models"
 	"github.com/spf13/cobra"
 	"gopkg.in/yaml.v2"
 )
@@ -62,7 +79,7 @@ func init() {
 			pat = strings.TrimSpace(pat)
 	
 			// Store the credentials in a struct
-			creds := AuthConfig{
+			creds := models.AuthConfig{
 				GitHub: struct {
 					Username string `yaml:"username"`
 					Token    string `yaml:"token"`

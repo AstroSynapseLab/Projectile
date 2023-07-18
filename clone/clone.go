@@ -6,8 +6,7 @@ import (
 	"io/ioutil"
 	"strings"
 
-	"github.com/AstroSynapseLab/Projectile/main"
-
+	"github.com/AstroSynapseLab/Projectile/models"
 	"gopkg.in/src-d/go-git.v4"
 	"gopkg.in/src-d/go-git.v4/plumbing/transport/http"
 	"gopkg.in/yaml.v2"
@@ -80,22 +79,22 @@ func cloneConfigRepo(url string) error {
 	return err
 }
 
-func readAndUnmarshalConfig() (main.Config, error) {
+func readAndUnmarshalConfig() (models.Config, error) {
 	data, err := ioutil.ReadFile("./.projectile/config.yaml")
 	if err != nil {
-		return main.Config{}, err
+		return models.Config{}, err
 	}
 
-	var config main.Config
+	var config models.Config
 	err = yaml.Unmarshal(data, &config)
 	if err != nil {
-		return main.Config{}, err
+		return models.Config{}, err
 	}
 
 	return config, nil
 }
 
-func cloneServiceRepos(config main.Config) error {
+func cloneServiceRepos(config models.Config) error {
 	authConfig, err := readAuthConfig()
 	if err != nil {
 		fmt.Println("Failed to read auth config:", err)
@@ -126,16 +125,16 @@ func cloneServiceRepos(config main.Config) error {
 	return nil
 }
 
-func readAuthConfig() (main.AuthConfig, error) {
+func readAuthConfig() (models.AuthConfig, error) {
 	data, err := ioutil.ReadFile("./.projectile/auth.yaml")
 	if err != nil {
-		return main.AuthConfig{}, err
+		return models.AuthConfig{}, err
 	}
 
-	var config main.AuthConfig
+	var config models.AuthConfig
 	err = yaml.Unmarshal(data, &config)
 	if err != nil {
-		return main.AuthConfig{}, err
+		return models.AuthConfig{}, err
 	}
 
 	return config, nil
