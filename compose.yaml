@@ -16,22 +16,22 @@ services:
     networks:
       - {value of network}
 
-  {create db service if defined}}
-    {value of database container_name}:
-      image: {value of image}:
-      container_name: {value of database container_name}:
-      environment:
-        - {environment variables}:
-      volumes:
-        - {value of project}-{value of database container_name}:/var/lib/postgresql/data
-      ports:
-        - {value of database ports}
-      restart: unless-stopped
-      networks:
-        - {value of network}
+{create db service if defined}}
+  {value of database container_name}:
+    image: {value of image}:
+    container_name: {value of database container_name}:
+    environment:
+      - {environment variables}:
+    volumes:
+      - {value of database container_name}:/var/lib/postgresql/data
+    ports:
+      - {value of database ports}
+    restart: unless-stopped
+    networks:
+      - {value of network}
 
 volumes:
-  {value of project}-{value of database container_name}
+  -{value of database container_name}
 
 networks:
   {value of network}

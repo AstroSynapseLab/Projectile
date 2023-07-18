@@ -1,30 +1,10 @@
-project: asai
+project: 
 services:
+  
   app-service: 
-    - container_name: app-service
-    - repo: https://github.com/AstroSynapseAI/app-service 
-    - dockerfile: DockerFile
-      ports:
-      - "8082:8082"
-  discord-service: 
-    - container_name: discord-service
-    - repo: https://github.com/AstroSynapseAI/discord-service 
-    - dockerfile: DockerFile
-      ports:
-      - "8083:8083"
-
-database: 
-  image: postgres:9.6.12
-  container_name: asai-db
-  environment:
-    - DB_NAME=asai-db
-    - DB_USER=asai-admin
-    - DB_PASSWORD=asai-password
-    - DB_PORT=5432
-  ports:
-    - "5432:5432"
-
-network:
-  - asai-network
-  
-  
+  - name: 
+  - path: 
+  - repo: 
+  - dockerfile: 
+    options:
+    - add_container: true

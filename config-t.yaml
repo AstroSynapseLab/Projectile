@@ -1,0 +1,12 @@
+project: asai
+services:
+  
+  app-service: 
+  - name: app-service
+  - path: ./asai-app-service
+  - repo: https://github.com/AstroSynapseAI/app-service 
+  
+  discord-service: 
+  - name: discord-service
+  - path: ./asai-discord-service
+  - repo: https://github.com/AstroSynapseAI/discord-service 
