@@ -1,17 +1,17 @@
-package docker
+package cmd
 
 import (
 	"fmt"
-	"io/ioutil"
 	"os"
 
+	"github.com/spf13/cobra"
 	"gopkg.in/yaml.v2"
 )
 
 type ServiceDetails struct {
-	ContainerName string `yaml:"container_name"`
-	Repo          string `yaml:"repo"`
-	Dockerfile    string `yaml:"dockerfile"`
+	ContainerName string   `yaml:"container_name"`
+	Repo          string   `yaml:"repo"`
+	Dockerfile    string   `yaml:"dockerfile"`
 	Ports         []string `yaml:"ports"`
 }
 
@@ -19,10 +19,10 @@ type Config struct {
 	Project  string                         `yaml:"project"`
 	Services map[string][]map[string]string `yaml:"services"`
 	Database struct {
-		Image          string   `yaml:"image"`
-		ContainerName  string   `yaml:"container_name"`
-		Environment    []string `yaml:"environment"`
-		Ports          []string `yaml:"ports"`
+		Image         string   `yaml:"image"`
+		ContainerName string   `yaml:"container_name"`
+		Environment   []string `yaml:"environment"`
+		Ports         []string `yaml:"ports"`
 	} `yaml:"database"`
 	Network struct {
 		Name string `yaml:"asai-network"`
@@ -30,15 +30,22 @@ type Config struct {
 }
 
 type DockerCompose struct {
-	Version  string                    `yaml:"version"`
-	Services map[string]interface{}    `yaml:"services"`
-	Volumes  map[string]interface{}    `yaml:"volumes"`
-	Networks map[string]struct{}       `yaml:"networks"`
+	Version  string                 `yaml:"version"`
+	Services map[string]interface{} `yaml:"services"`
+	Volumes  map[string]interface{} `yaml:"volumes"`
+	Networks map[string]struct{}    `yaml:"networks"`
+}
+
+var initCmd = &cobra.Command{
+	Use:   "init",
+	Short: "Create new project",
+	Run: func(cmd *cobra.Command, args []string) {
+	},
 }
 
 func Build() {
 	// Read config file
-	file, err := ioutil.ReadFile("./config.yaml")
+	file, err := os.ReadFile("./config.yaml")
 	if err != nil {
 		fmt.Println(err)
 	}
@@ -103,7 +110,7 @@ func Build() {
 	}
 
 	// Write the DockerCompose data to a file
-	err = ioutil.WriteFile("./docker-compose.yaml", dockerComposeData, 0644)
+	err = os.WriteFile("./docker-compose.yaml", dockerComposeData, 0644)
 	if err != nil {
 		fmt.Println(err)
 		os.Exit(1)

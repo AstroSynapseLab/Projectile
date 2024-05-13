@@ -1,6 +1,18 @@
+# project paths
+projects_root: ~/Engineering/Projects/
+project_folders: ['Development/', "Design/", "SourceCode/Web", "SourceCode/iOS"]
+# libs paths
+libs_root: ~/Engineering/Libraries/
+libs_folders: []
+# tools paths
+tools_root: ~/Engineering/Tools/
+tools_folders: []
+# website paths
+website_root: ~/Engineering/WebSites/
+website_folders: []
+
 project: 
 services:
-  
   app-service: 
   - name: 
     path: 

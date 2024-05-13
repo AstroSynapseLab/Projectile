@@ -1,4 +1,4 @@
-package models
+package schema
 
 type Options struct {
 	AddContainer bool `yaml:"add_container"`
@@ -13,7 +13,7 @@ type Service struct {
 }
 
 type Config struct {
-	Project  string              `yaml:"project"`
+	Project  string               `yaml:"project"`
 	Services map[string][]Service `yaml:"services"`
 }
 

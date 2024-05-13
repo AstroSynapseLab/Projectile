@@ -1,20 +1,35 @@
-package clone
+package cmd
 
 import (
+	"os"
+
+	"github.com/spf13/cobra"
+
 	"errors"
 	"fmt"
-	"io/ioutil"
 	"strings"
 
-	"github.com/AstroSynapseLab/Projectile/models"
+	"github.com/AstroSynapseLab/Projectile/schema"
 	"gopkg.in/src-d/go-git.v4"
 	"gopkg.in/src-d/go-git.v4/plumbing/transport/http"
 	"gopkg.in/yaml.v2"
 )
 
+var cloneCmd = &cobra.Command{
+	Use:   "clone",
+	Short: "Clone existing project",
+	Run: func(cmd *cobra.Command, args []string) {
+		url := args[0]
+		err := Do(url)
+		if err != nil {
+			fmt.Println(err)
+		}
+	},
+}
+
 var (
 	ErrNotProjectileRepo = errors.New("provided url is not a projectile repo")
-	ErrFaildAuth         = errors.New("failed to authenticate, type `projectile login` to provide username and GitHub PAT \nvisit https://github.com/settings/tokens to generate PAT")	
+	ErrFaildAuth         = errors.New("failed to authenticate, type `projectile login` to provide username and GitHub PAT \nvisit https://github.com/settings/tokens to generate PAT")
 )
 
 func Do(configRepo string) error {
@@ -68,7 +83,7 @@ func cloneConfigRepo(url string) error {
 	}
 
 	_, err = git.PlainClone("./.projectile", false, &git.CloneOptions{
-		URL:      configRepo,
+		URL: configRepo,
 		Auth: &http.BasicAuth{
 			Username: auth.GitHub.Username,
 			Password: auth.GitHub.Token,
@@ -82,26 +97,26 @@ func cloneConfigRepo(url string) error {
 	}
 
 	// Store the YAML in a file
-	err = ioutil.WriteFile("./.projectile/auth.yaml", data, 0644)
+	err = os.WriteFile("./.projectile/auth.yaml", data, 0644)
 	return err
 }
 
-func readAndUnmarshalConfig() (models.Config, error) {
-	data, err := ioutil.ReadFile("./.projectile/config.yaml")
+func readAndUnmarshalConfig() (schema.Config, error) {
+	data, err := os.ReadFile("./.projectile/config.yaml")
 	if err != nil {
-		return models.Config{}, err
+		return schema.Config{}, err
 	}
 
-	var config models.Config
+	var config schema.Config
 	err = yaml.Unmarshal(data, &config)
 	if err != nil {
-		return models.Config{}, err
+		return schema.Config{}, err
 	}
 
 	return config, nil
 }
 
-func cloneServiceRepos(config models.Config) error {
+func cloneServiceRepos(config schema.Config) error {
 	authConfig, err := readAuthConfig()
 	if err != nil {
 		fmt.Println("Failed to read auth config:", err)
@@ -111,7 +126,7 @@ func cloneServiceRepos(config models.Config) error {
 	for _, serviceList := range config.Services {
 		for _, service := range serviceList {
 			_, err := git.PlainClone(service.Path, false, &git.CloneOptions{
-				URL:      service.Repo,
+				URL: service.Repo,
 				Auth: &http.BasicAuth{
 					Username: authConfig.GitHub.Username,
 					Password: authConfig.GitHub.Token,
@@ -132,27 +147,27 @@ func cloneServiceRepos(config models.Config) error {
 	return nil
 }
 
-func readAuthConfig() (models.AuthConfig, error) {
-	data, err := ioutil.ReadFile("./.projectile/auth.yaml")
+func readAuthConfig() (schema.AuthConfig, error) {
+	data, err := os.ReadFile("./.projectile/auth.yaml")
 	if err != nil {
-		return models.AuthConfig{}, err
+		return schema.AuthConfig{}, err
 	}
 
-	var config models.AuthConfig
+	var config schema.AuthConfig
 	err = yaml.Unmarshal(data, &config)
 	if err != nil {
-		return models.AuthConfig{}, err
+		return schema.AuthConfig{}, err
 	}
 
 	return config, nil
 }
 
 func copyFile(src, dst string) error {
-	input, err := ioutil.ReadFile(src)
+	input, err := os.ReadFile(src)
 	if err != nil {
 		return err
 	}
 
-	err = ioutil.WriteFile(dst, input, 0644)
+	err = os.WriteFile(dst, input, 0644)
 	return err
 }
