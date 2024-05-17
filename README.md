@@ -1,45 +1,19 @@
 # Projectile 
 
-Projectile is a simple CLI tool designed to manage environments. It streamlines the process of setting up and cloning projects, aiding in the quick deployment of custom environment builds.
+Projectile is a  CLI tool to help work with go projects.
 
-With a flexible design, Projectile is capable of supporting different project architectures. It works with both monolith app projects and Service-Oriented Architecture (SOA) based projects. For a monolith project, a `.projectile` folder is required. For SOA projects, a `projectile` repository within the project organization is needed. 
+It is a work in progress...
 
-Please note that, as of now, Projectile only supports projects hosted on GitHub.
+# Installation
 
-> **Note:** Projectile is currently in early development.
-
-## Installation
-
-1. **Clone the Repository:**
-
-    ```
-    git clone https://github.com/AstroSynapseLab/Projectile ~/.projectile
-    ```
-
-2. **Create an Alias:**
-
-    ```
-    echo "alias projectile='~/.projectile/bin'" >> ~/.zshrc
-    ```
-
-    Be sure to replace `.zshrc` with your shell's configuration file if you're using a different shell.
-
-### Login
-
-To authenticate with GitHub, use the `projectile login` command. You'll need a GitHub Personal Access Token (PAT). If you don't have a PAT, you can follow [this guide](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token) to create one.
+```sh
+go install github.com/GoLangWebSDK/Projectile
 
 ```
-projectile login
-```
+# Licence
 
-## Clone an Existing Project
+This is free software for anyone to use as the will. Use it at your own personal risk.
 
-To clone a project, use the `projectile clone` command. This command expects a GitHub URL that points to either a Projectile-compatible repository or an organization that contains a Projectile repository.
+No cashbacks.
 
-Here's an example:
 
-```
-projectile clone https://github.com/AstroSynapseAI
-```
-
-In this example, `https://github.com/AstroSynapseAI` is an organization that contains the `https://github.com/AstroSynapseAI/projectile` repository.
