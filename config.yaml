@@ -1,6 +1,6 @@
 # project paths
 projects_root: ~/Engineering/Projects/
-project_folders: ['Development/', "Design/", "SourceCode/Web", "SourceCode/iOS"]
+project_folders: ['Development/', "Design/","SourceCode/", "SourceCode/Web/", "SourceCode/iOS/"]
 # libs paths
 libs_root: ~/Engineering/Libraries/
 libs_folders: []
@@ -10,6 +10,9 @@ tools_folders: []
 # website paths
 website_root: ~/Engineering/WebSites/
 website_folders: []
+# sandbox paths
+sandbox_root: ~/Engineering/TestingGrounds/
+sandbox_folders: []
 
 project: 
 services:
