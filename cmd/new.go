@@ -21,7 +21,7 @@ var newProjectCmd = &cobra.Command{
 	Short: "Create new project, requires project name as argument",
 	Args:  cobra.MinimumNArgs(1),
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("New project called")
+		fmt.Println("Creating new project...")
 
 		config, err := loadConfig()
 		if err != nil {
@@ -45,9 +45,10 @@ var newProjectCmd = &cobra.Command{
 
 var newLibraryCmd = &cobra.Command{
 	Use:   "lib",
-	Short: "Create new library",
+	Short: "Create new library, requires library name as argument",
+	Args:  cobra.MinimumNArgs(1),
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("New library called")
+		fmt.Println("Creating new library...")
 
 		config, err := loadConfig()
 		if err != nil {
@@ -71,9 +72,10 @@ var newLibraryCmd = &cobra.Command{
 
 var newSandboxCmd = &cobra.Command{
 	Use:   "sandbox",
-	Short: "Create new sandbox",
+	Short: "Create new sandbox, requires sandbox name as argument",
+	Args:  cobra.MinimumNArgs(1),
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("New sandbox called")
+		fmt.Println("Creating new sandbox...")
 
 		config, err := loadConfig()
 		if err != nil {
@@ -95,9 +97,10 @@ var newSandboxCmd = &cobra.Command{
 
 var newToolCmd = &cobra.Command{
 	Use:   "tool",
-	Short: "Create new tool",
+	Short: "Create new tool, requires tool name as argument",
+	Args:  cobra.MinimumNArgs(1),
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("New tool called")
+		fmt.Println("Creating new tool...")
 
 		config, err := loadConfig()
 

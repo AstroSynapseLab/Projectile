@@ -1,8 +1,9 @@
-module github.com/AstroSynapseLab/Projectile
+module github.com/GoLangWebSDK/Projectile
 
 go 1.20
 
 require (
+	github.com/AstroSynapseLab/Projectile v0.0.0-20240513170218-60f3b0a4190b
 	github.com/spf13/cobra v1.7.0
 	gopkg.in/src-d/go-git.v4 v4.13.1
 	gopkg.in/yaml.v2 v2.4.0

@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/AstroSynapseLab/Projectile/schema"
+	"github.com/GoLangWebSDK/Projectile/schema"
 	"github.com/spf13/cobra"
 	"gopkg.in/yaml.v2"
 )

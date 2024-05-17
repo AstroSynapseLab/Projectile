@@ -17,7 +17,7 @@ main.go
 package main
 
 import (
-	"github.com/AstroSynapseLab/Projectile/cmd"
+	"github.com/GoLangWebSDK/Projectile/cmd"
 )
 
 func main() {
